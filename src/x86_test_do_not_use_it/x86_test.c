@@ -3,7 +3,7 @@
 
 WARNING:
 
-This its just a minor-test file for x86. Dont use this as reference example in your 
+This its just a minor-test file for x86. Dont use this as reference example in your
 embedded application
 This is not a full OS test, most of the built-in modules are tested externally with
 embedded C compilers in real hardware( these are not included in this repository)
@@ -24,20 +24,20 @@ embedded C compilers in real hardware( these are not included in this repository
 #define QSM_SIGNAL_USER2    1
 
     #if  (Q_SETUP_TIME_CANONICAL != 1)
-        #define T10MSEC         0.01f    
+        #define T10MSEC         0.01f
         #define T100MSEC        0.1f
         #define T500MSEC        0.5f
         #define T1SEC           1.0f
-        #define T2SEC           2.0f        
+        #define T2SEC           2.0f
         #define T2_5SEC         2.5f
         #define T10SEC          10.0f
-        #define T30SEC          30.0f        
+        #define T30SEC          30.0f
     #else
         #define T10MSEC         10
         #define T100MSEC        100
         #define T500MSEC        500
         #define T1SEC           1000
-        #define T2SEC           2000           
+        #define T2SEC           2000
         #define T2_5SEC         2500
         #define T10SEC          10000
         #define T30SEC          30000
@@ -73,7 +73,7 @@ qBool_t mylist_visualizer( qList_ForEachHandle_t h ){
             break;
         case qList_WalkEnd:
             puts("}");
-            break;    
+            break;
         default: break;
     }
     return qFalse;
@@ -91,13 +91,13 @@ qBool_t mylist_binremove( qList_ForEachHandle_t h ){
             }
             break;
         case qList_WalkEnd:
-            break;    
+            break;
         default: break;
     }
-    return qFalse;    
+    return qFalse;
 }
 /*============================================================================*/
-qBool_t comparator( qList_CompareHandle_t h ) { 
+qBool_t comparator( qList_CompareHandle_t h ) {
     const mynode_t *n1 = h->n1;
     const mynode_t *n2 = h->n2;
     int l, r;
@@ -105,20 +105,20 @@ qBool_t comparator( qList_CompareHandle_t h ) {
     l = n1->value;
     r = n2->value;
     /* both odd, put the greater of two first. */
-    if ((l&1) && (r&1)) 
-        return l>r; 
-  
+    if ((l&1) && (r&1))
+        return l>r;
+
     /* both even, put the smaller of two first */
-    if ( !(l&1) && !(r&1) ) 
-        return l>r; 
-  
+    if ( !(l&1) && !(r&1) )
+        return l>r;
+
     /*l is even, put r first */
-    if (!(l&1)) 
-        return qTrue; 
-  
+    if (!(l&1))
+        return qTrue;
+
     /* l is odd, put l first */
-    return qFalse; 
-} 
+    return qFalse;
+}
 /*============================================================================*/
 void test_qList_API(void){
     qList_t mylist;
@@ -126,9 +126,9 @@ void test_qList_API(void){
 
     qList_Iterator_t iter;
 
-    TEST_MESSAGE( "Executing TEST qList_API..." ); 
+    TEST_MESSAGE( "Executing TEST qList_API..." );
     qList_Initialize( &mylist );
-    qList_Initialize( &otherlist ); 
+    qList_Initialize( &otherlist );
     n1.value = 1;
     n2.value = 6;
     n3.value = 5;
@@ -138,7 +138,7 @@ void test_qList_API(void){
     n7.value = 4;
     n8.value = 7;
     n9.value = 8;
- 
+
     TEST_ASSERT_EQUAL_UINT8( qFalse, qList_ForEach( &mylist, mylist_visualizer, NULL, qFalse, NULL ) );
     TEST_ASSERT_EQUAL_UINT8( qFalse, qList_IsMember(&mylist, &n1) );
     TEST_ASSERT_EQUAL_UINT8( qTrue, qList_Insert( &mylist, &n1, QLIST_AT_BACK ) );
@@ -152,7 +152,7 @@ void test_qList_API(void){
     TEST_ASSERT_EQUAL_UINT8( qTrue, qList_IsMember(&mylist, &n1) );
     TEST_ASSERT_EQUAL_UINT8( qTrue, qList_Insert( &mylist, &n9, QLIST_AT_BACK )  );
     TEST_ASSERT_EQUAL_UINT8( qFalse, qList_Insert( &mylist, &n9, QLIST_AT_BACK ) ); /*node n9 its already a member*/
-    TEST_ASSERT_EQUAL_UINT8( qFalse, qList_Insert( &mylist, NULL, QLIST_AT_BACK ) ); 
+    TEST_ASSERT_EQUAL_UINT8( qFalse, qList_Insert( &mylist, NULL, QLIST_AT_BACK ) );
     TEST_ASSERT_EQUAL_UINT8( qFalse, qList_ForEach( &mylist, mylist_visualizer, NULL, QLIST_FORWARD, NULL ) );
 
     for ( iter = qList_Begin( &mylist) ; qListIterator_Until( &iter, NULL ) ; qListIterator_Forward( &iter ) )
@@ -181,19 +181,19 @@ void test_qMemoryManagement_API(void){
     #define XPOOL_SIZE  ( 512 )
     uint8_t xpool_area[XPOOL_SIZE]={0};
     TEST_ASSERT_EQUAL_UINT8( qTrue, qMemMang_Pool_Setup(  &xpool, xpool_area, sizeof(xpool_area) ) );
-    TEST_MESSAGE( "Executing TEST qMemoryManagement_API..." ); 
+    TEST_MESSAGE( "Executing TEST qMemoryManagement_API..." );
     TEST_ASSERT_EQUAL_size_t( Q_DEFAULT_HEAP_SIZE , qMemMang_Get_FreeSize( NULL ) );
     memtest = qMalloc( 16*sizeof(int) );
-    TEST_ASSERT_NOT_NULL( memtest );   
-    
+    TEST_ASSERT_NOT_NULL( memtest );
+
     qMemMang_Pool_Select( &xpool );
     xpooltest = qMalloc( 25 );
-    TEST_ASSERT_NOT_NULL( xpooltest );   
+    TEST_ASSERT_NOT_NULL( xpooltest );
     qMemMang_Pool_Select( NULL );
 
     //TEST_ASSERT_EQUAL_size_t( Q_DEFAULT_HEAP_SIZE - sizeof(int)*16 - 2*sizeof(qMemMang_BlockConnect_t), qMemMang_Get_FreeSize( NULL ) );
     qFree(memtest);
-    TEST_ASSERT_EQUAL_size_t( Q_DEFAULT_HEAP_SIZE - sizeof(qMemMang_BlockConnect_t) , qMemMang_Get_FreeSize( NULL) );    
+    TEST_ASSERT_EQUAL_size_t( Q_DEFAULT_HEAP_SIZE - sizeof(qMemMang_BlockConnect_t) , qMemMang_Get_FreeSize( NULL) );
     TEST_ASSERT_NULL( qMalloc(Q_DEFAULT_HEAP_SIZE) );
     #endif
 }
@@ -241,7 +241,7 @@ qSM_Status_t statefirst_callback(qSM_Handler_t h){
     if(e->FirstCall){
         TEST_MESSAGE("state machine init");
     }
-  
+
     switch( h->Signal ){
         case QSM_SIGNAL_ENTRY:
             puts("entering firststate");
@@ -268,7 +268,7 @@ qSM_Status_t statesecond_callback(qSM_Handler_t h){
 
     switch( h->Signal ){
         case QSM_SIGNAL_ENTRY:
-            puts("entering secondstate");    
+            puts("entering secondstate");
             TEST_ASSERT_EQUAL_UINT8( qTrue, qSTimer_Set(&tmr, T2_5SEC) );
             TEST_MESSAGE( (char*)e->TaskData );
             break;
@@ -278,7 +278,7 @@ qSM_Status_t statesecond_callback(qSM_Handler_t h){
                 h->NextState = &statefirst;
             }
             break;
-        case QSM_SIGNAL_USER1:    
+        case QSM_SIGNAL_USER1:
             h->NextState = &statethird;
             break;
         case QSM_SIGNAL_EXIT:
@@ -286,25 +286,25 @@ qSM_Status_t statesecond_callback(qSM_Handler_t h){
             break;
         default:
             break;
-    }    
+    }
     return qSM_STATUS_EXIT_SUCCESS;
 }
 qSM_Status_t statethird_callback(qSM_Handler_t h){
     switch( h->Signal ){
         case QSM_SIGNAL_ENTRY:
-            puts("entering thridstate");    
+            puts("entering thridstate");
             break;
         case QSM_SIGNAL_NONE:
             break;
         case QSM_SIGNAL_USER1:
             h->NextState = &statefirst;
-            break;       
+            break;
         case QSM_SIGNAL_EXIT:
             puts("exiting from thridstate");
             break;
         default:
             break;
-    }    
+    }
     return qSM_STATUS_EXIT_SUCCESS;
 }
 #endif
@@ -313,12 +313,12 @@ void Task1Callback(qEvent_t e){
     static qSTimer_t tmr = QSTIMER_INITIALIZER;
     TEST_MESSAGE( (char*)e->TaskData );
     TEST_MESSAGE( (char*)e->EventData );
-    
+
     qTrace_Variable( e->StartDelay, UnsignedDecimal );
 
     #if ( Q_TASK_COUNT_CYCLES == 1 )
         qTrace_Variable( qTask_Get_Cycles(&Task1), UnsignedDecimal );
-    #endif    
+    #endif
     if(e->FirstCall){
         TEST_MESSAGE("FirstCall");
     }
@@ -328,7 +328,7 @@ void Task1Callback(qEvent_t e){
     if(e->LastIteration){
         TEST_MESSAGE("LastIteration");
     }
-    
+
     if(e->Trigger == byNotificationSimple){
         TEST_MESSAGE("TASK1 BY SIMPLE NOTIFICATION");
     }
@@ -336,10 +336,10 @@ void Task1Callback(qEvent_t e){
     if(e->Trigger == byNotificationQueued){
         TEST_MESSAGE("TASK1 BY QUEUED NOTIFICATION");
     }
-    
+
     if(qSTimer_FreeRun(&tmr, T500MSEC)){
         TEST_MESSAGE("Timer expired");
-    }         
+    }
 
     qOS_YieldToTask( &Task3 );
 }
@@ -353,14 +353,14 @@ void Task3Callback(qEvent_t e){
         data = *((int*)e->EventData);
         TEST_MESSAGE("Queue event: byQueueReceiver");
         qDebug_Variable(data, Decimal);
-    } 
+    }
     if(e->Trigger == byEventFlags){
         TEST_MESSAGE("event flag set");
         #if ( Q_TASK_EVENT_FLAGS == 1 )
         qTask_EventFlags_Modify( qTask_Self(), QEVENTFLAG_03, QEVENTFLAG_CLEAR );
         #endif
     }
-    
+
 }
 /*============================================================================*/
 void TaskSameCallback(qEvent_t e){
@@ -433,7 +433,7 @@ void blinktaskCallback(qEvent_t e){
 
         TEST_ASSERT_EQUAL_UINT8( qTrue, qTask_Notification_Queue(&Task1, "notification 1") );
 
-        TEST_ASSERT_EQUAL_UINT8( qTrue, qTask_HasPendingNotifications( &Task1 ) ); 
+        TEST_ASSERT_EQUAL_UINT8( qTrue, qTask_HasPendingNotifications( &Task1 ) );
         TEST_ASSERT_EQUAL_UINT8( qTrue, qTask_Notification_Queue(&Task1, "notification 2") );
         TEST_ASSERT_EQUAL_UINT8( qTrue, qTask_Notification_Send(&Task1, "notification 3") );
         TEST_ASSERT_EQUAL_UINT8( qTrue, qTask_Notification_Send(&Task1, "notification 4") );
@@ -492,9 +492,9 @@ void test_OS_API( void ){
     #if ( Q_FSM == 1 )
     qSM_Signal_t fsmsigarea[5];
     #endif
-    TEST_MESSAGE( "Executing TEST OS_API.." ); 
+    TEST_MESSAGE( "Executing TEST OS_API.." );
 
-    qTrace_Set_OutputFcn(putcharfcn); 
+    qTrace_Set_OutputFcn(putcharfcn);
     qTrace_Variable( -3.1416, Float);
     qTrace_Variable( "dafdaa", Message );
     printf( "\r\n[SYSTEM_SPECS: %s - %ld bits]\r\n", qIOUtil_CheckEndianness()? "LittleEndian" : "BigEndian", 8*sizeof(void*) );
@@ -530,14 +530,14 @@ void test_OS_API( void ){
     qTrace_Variable( -0.0f/0.0f, Float );
     TEST_ASSERT_EQUAL_size_t( 10, qIOUtil_StrLen("hola q tal", Q_IO_UTIL_MAX_STRLEN)  );
 
-    TEST_MESSAGE( "qEdgeCheck_Module.." ); 
+    TEST_MESSAGE( "qEdgeCheck_Module.." );
     TEST_ASSERT_EQUAL_UINT8( qTrue, qEdgeCheck_Setup(&INPUTS, QREG_32BIT, 10) );
     TEST_ASSERT_EQUAL_UINT8( qTrue, qEdgeCheck_Add_Node(&INPUTS, &button1, &PORTA, 0) );
     TEST_ASSERT_EQUAL_UINT8( qTrue, qEdgeCheck_Add_Node(&INPUTS, &button2, &PORTA, 1) );
     TEST_ASSERT_EQUAL_UINT8( qTrue, qEdgeCheck_Add_Node(&INPUTS, &sensor1, &PORTA, 2) );
     TEST_ASSERT_EQUAL_UINT8( qTrue, qEdgeCheck_Add_Node(&INPUTS, &sensor2, &PORTA, 3) );
     #if ( Q_QUEUES == 1 )
-        TEST_MESSAGE( "qQueue_Module..." ); 
+        TEST_MESSAGE( "qQueue_Module..." );
         TEST_ASSERT_EQUAL_UINT8( qTrue, qQueue_Setup( &somequeue, queuearea, sizeof(int), 8) );
         TEST_ASSERT_EQUAL_UINT8( qTrue, qQueue_Send( &somequeue, &x[0], QUEUE_SEND_TO_BACK ) );
         TEST_ASSERT_EQUAL_UINT8( qTrue, qQueue_Send( &somequeue, &x[1], QUEUE_SEND_TO_FRONT ) );
@@ -553,19 +553,19 @@ void test_OS_API( void ){
         TEST_ASSERT_EQUAL_INT( x[0], DataReceivedFromQueue );
         TEST_ASSERT_EQUAL_size_t( 1, qQueue_Count( &somequeue ) );
     #endif
-    TEST_MESSAGE( "OS scheduling..." ); 
+    TEST_MESSAGE( "OS scheduling..." );
     #if  (Q_SETUP_TIME_CANONICAL != 1)
-        qOS_Setup(GetTickCountMs, 0.001f, IdleTaskCallback ); /*  IdleTaskCallback  */ 
+        qOS_Setup(GetTickCountMs, 0.001f, IdleTaskCallback, NULL ); /*  IdleTaskCallback  */
     #else
-        qOS_Setup(GetTickCountMs, IdleTaskCallback ); /*  IdleTaskCallback  */
+        qOS_Setup(GetTickCountMs, IdleTaskCallback, NULL ); /*  IdleTaskCallback  */
     #endif
     #if (Q_ALLOW_SCHEDULER_RELEASE == 1)
         qOS_Set_SchedulerReleaseCallback( scheduler_Release );
     #endif
-    TEST_ASSERT_EQUAL_UINT8( qTrue, qOS_Add_Task(&blinktask, blinktaskCallback, qLowest_Priority, T10MSEC, qPeriodic, qEnabled, "blink") );  
-    qTask_Set_Name( &blinktask, "blinky" ); 
+    TEST_ASSERT_EQUAL_UINT8( qTrue, qOS_Add_Task(&blinktask, blinktaskCallback, qLowest_Priority, T10MSEC, qPeriodic, qEnabled, "blink") );
+    qTask_Set_Name( &blinktask, "blinky" );
     TEST_ASSERT_EQUAL_UINT8( qTrue, qOS_Add_Task(&Task1, Task1Callback, qHigh_Priority, T500MSEC, 5, qEnabled, "TASK1") );
-    qTask_Set_Name( &Task1, "Task1" ); 
+    qTask_Set_Name( &Task1, "Task1" );
     TEST_ASSERT_EQUAL_UINT8( qTrue, qOS_Add_EventTask(&Task3, Task3Callback, qMedium_Priority, "TASK3") );
     #if ( Q_QUEUES == 1 )
     TEST_ASSERT_EQUAL_UINT8( qTrue, qTask_Attach_Queue(&Task3, &somequeue, qQueueMode_Receiver, qATTACH) );
@@ -596,14 +596,14 @@ void test_OS_API( void ){
     TEST_ASSERT_EQUAL_UINT8( qTrue, qQueue_Setup( &sigqueue, fsmsigarea, sizeof(qSM_Signal_t), qFLM_ArraySize(fsmsigarea) ) );
     TEST_ASSERT_EQUAL_UINT8( qTrue, qStateMachine_InstallSignalQueue( &statemachine, &sigqueue ) );
     #endif
-    
+
     qOS_Run();
 }
 
-int main(int argc, char** argv) {   
+int main(int argc, char** argv) {
     (void)argc;
     (void)argv;
-    
+
     /*Already tested externally (NOT INCLUDED HERE)
         - kernel internals
         - task internals
@@ -616,11 +616,11 @@ int main(int argc, char** argv) {
         - atparser
         - list internals
         - memory management internals
-        
+
     */
     UNITY_BEGIN();
         RUN_TEST( test_qList_API ); /*Some basic test of the qlist apis*/
-        RUN_TEST( test_qMemoryManagement_API );  
+        RUN_TEST( test_qMemoryManagement_API );
         RUN_TEST( test_OS_API ); /*some scheduling test, including other redundant modules*/
 
     return UNITY_END();
