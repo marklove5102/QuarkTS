@@ -337,7 +337,7 @@ void Task1Callback(qEvent_t e){
         TEST_MESSAGE("TASK1 BY QUEUED NOTIFICATION");
     }
 
-    if(qSTimer_FreeRun(&tmr, T500MSEC)){
+    if(qSTimer_ReloadIfExpired(&tmr, T500MSEC)){
         TEST_MESSAGE("Timer expired");
     }
 
@@ -388,7 +388,7 @@ void IdleTaskCallback(qEvent_t e){
         qSTimer_Disarm(&t);
     }
 
-    if(qSTimer_FreeRun(&xd, T500MSEC)){
+    if(qSTimer_ReloadIfExpired(&xd, T500MSEC)){
         qTrace_UnsignedDecimal( qSTimer_Elapsed(&t) );
         qTrace_UnsignedDecimal( qSTimer_Remaining(&t) );
         qTrace_Bool( qSTimer_Expired(&t) );
