@@ -771,13 +771,15 @@
 *
 *  qSM_Transition_t cruising_transitions[] =
 *  {
-*  { SIGNAL_OFF,       NULL,                     &state_cruisingoff  , 0, NULL },
-*  { SIGNAL_ACCEL,     NULL,                     &state_accelerating , 0, NULL }
+*  { SIGNAL_OFF,              NULL,              &state_cruisingoff  , 0, NULL },
+*  { SIGNAL_ACCEL,            NULL,              &state_accelerating , 0, NULL }
 *  };
 *
 *  qSM_Transition_t resuming_transitions[] =
 *  {
-*  { SIGNAL_ACCEL,      NULL,                    &state_accelerating , 0, NULL }
+*  { SIGNAL_OFF,              NULL,              &state_cruisingoff  , 0, NULL },
+*  { SIGNAL_ACCEL,            NULL,              &state_accelerating , 0, NULL },
+*  { SIGNAL_REACHED_CRUISING, NULL,              &state_cruising     , 0, NULL }
 *  };
 *
 *  qSM_Transition_t cruisingoff_transitions[] =
